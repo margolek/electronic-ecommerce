@@ -13,25 +13,12 @@ html, body, p, div{
     font-weight: 500;
 }
 
-#button-right{
-    border-radius: 0px 5px 5px 0px;
-}
-
-#button-left{
-    border-radius: 5px 0px 0px 5px;
-}
-
-/*input[type=search]:focus{
-    box-shadow: none;
-    border: 1px solid #ced4da;
-}*/
-
-.form-control[type="text"]:focus{
+.form-control[type="text"]:focus,.submit-button:focus{
     border-color: transparent;
     box-shadow: 0 1px 9px 0 rgb(0 0 0 / 30%);
 }
-}
 
-/*div > form{
-    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
-}*/
+.nav-link:hover{
+    border-radius: 0.35rem;
+    box-shadow: 0 1px 9px 0 rgb(0 0 0 / 30%);
+}
