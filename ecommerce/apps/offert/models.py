@@ -1,8 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
+
+User = get_user_model()
 
 
 class Category(MPTTModel):
@@ -37,12 +40,27 @@ class Feature(models.Model):
     """
 
     name = models.CharField(verbose_name=_("Feature Name"), max_length=255, unique=True)
-    value = models.DecimalField(
-        verbose_name=_("Feature value"), max_digits=6, decimal_places=2
+    category = models.ManyToManyField(
+        Category, related_name="feature_categories", through="FeatureCategory"
     )
 
     def __str__(self):
-        return f"{self.name} : {self.value}"
+        return f"{self.name}"
+
+
+class FeatureCategory(models.Model):
+    """
+    Connection between Feature and Category
+    """
+
+    feature = models.ForeignKey(Feature, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["feature", "category"]
+
+    def __str__(self):
+        return f"{self.feature} : {self.category}"
 
 
 class Product(models.Model):
@@ -53,6 +71,18 @@ class Product(models.Model):
     name = models.CharField(verbose_name=_("Product Name"), max_length=255, unique=True)
     slug = models.SlugField(verbose_name=_("Slug"), max_length=255, unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    features = models.ManyToManyField(
+        Feature, related_name="features", through="ProductFeature"
+    )
+    description = models.TextField(verbose_name=_("Product Description"), blank=True)
+    added_by = models.ForeignKey(
+        User, related_name="product_creator", on_delete=models.CASCADE
+    )
+    added_at = models.DateTimeField(auto_now_add=True, editable=False)
+    last_modification = models.DateTimeField(auto_now=True)
+    available = models.BooleanField(default=True)
+    quantity = models.DecimalField(max_digits=5, decimal_places=0)
+    calatog_number = models.DecimalField(max_digits=10, decimal_places=0)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -62,7 +92,46 @@ class Product(models.Model):
         return self.name
 
 
+class ProductRate(models.Model):
+    """
+    All users opinion about product
+    """
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.DecimalField(max_digits=2, decimal_places=1)
+
+
+class ProductFeature(models.Model):
+    """
+    ManytoMany Relationship connector
+    """
+
+    product = models.ForeignKey(
+        Product, related_name="product_product", on_delete=models.CASCADE
+    )
+    feature = models.ForeignKey(
+        Feature, related_name="product_feature", on_delete=models.CASCADE
+    )
+    value = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        verbose_name=_("Feature Value"),
+        help_text="max 6 digit, 2 decimal place",
+    )
+
+    class Meta:
+        unique_together = ["product", "feature"]
+
+    def __str__(self):
+        return f"{self.product} : {self.feature}"
+
+
 class Images(models.Model):
+    """
+    Product images details
+    """
+
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="product_image"
     )
@@ -77,6 +146,10 @@ class Images(models.Model):
 
 
 class Price(models.Model):
+    """
+    Product price details
+    """
+
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     regular = models.DecimalField(
         max_digits=6, decimal_places=2, verbose_name="Normal Price"
