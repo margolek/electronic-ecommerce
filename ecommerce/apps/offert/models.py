@@ -70,7 +70,7 @@ class Product(models.Model):
 
     name = models.CharField(verbose_name=_("Product Name"), max_length=255, unique=True)
     slug = models.SlugField(verbose_name=_("Slug"), max_length=255, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = TreeForeignKey(Category, on_delete=models.PROTECT)
     features = models.ManyToManyField(
         Feature, related_name="features", through="ProductFeature"
     )

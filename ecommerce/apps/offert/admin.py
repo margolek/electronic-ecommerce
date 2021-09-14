@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mptt.admin import MPTTModelAdmin
+from mptt.admin import MPTTModelAdmin,TreeNodeChoiceField, DraggableMPTTAdmin
 
 from .models import (
     Category,
@@ -38,7 +38,7 @@ class PriceInline(admin.TabularInline):
 
 
 @admin.register(Category)
-class CustomMPTTModelAdmin(MPTTModelAdmin):
+class CustomMPTTModelAdmin(DraggableMPTTAdmin):
     mptt_level_indent = 25
     exclude = ["slug"]
 
@@ -52,3 +52,4 @@ class FeatureAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     exclude = ["slug"]
     inlines = [ImagesInline, PriceInline, ProductFeatureInline, ProductRateInline]
+
