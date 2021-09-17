@@ -29,6 +29,10 @@
   border-radius: 100px;
 }
 
+.card{
+  border: none;
+}
+
 .card-header{
   background: #f5f5f5;
   border: none;
@@ -47,20 +51,21 @@
   text-decoration: none;
 }
 
-.card-footer:hover{
-  box-shadow: inset 0 0 5px 0;
+.add-basket:hover{
+  /*box-shadow: inset 0 0 5px 0;*/
+  background-color: rgba(28, 166, 37, 0.2);
 }
 
 .price-header{
   background-color: #1ca625;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
 }
 
 .price-body{
-  padding: 0.1rem;
+  padding: 0.1rem !important;
 }
 
 .card-body-batch{
@@ -76,10 +81,11 @@
 .batch-header-succ{
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
+  padding-left: 1.475rem;
+  padding-right: 1.475rem;
   background-color: #198754;
 }
 
-.batch-footer-warn{
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
+.batch-footer-warn,.batch-footer-succ{
+  padding: 0;
 }
