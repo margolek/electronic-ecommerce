@@ -1,14 +1,14 @@
-#cat{
-	background-color: #f5f5f5;
+#cat {
+  background-color: #f5f5f5;
 }
 
-.carousel-item.main{
+.carousel-item.main {
   height: 30rem;
   background: #f5f5f5;
   position: relative;
 }
 
-.carousel-item{
+.carousel-item {
   height: 241px;
   background: #ffffff;
   position: relative;
@@ -25,38 +25,38 @@
   text-align: center;
 }
 
-.round-border{
+.round-border {
   border-radius: 100px;
 }
 
-.card{
+.card {
   border: none;
 }
 
-.card-header{
+.card-header {
   background: #f5f5f5;
   border: none;
 }
 
-.card-body{
+.card-body {
   padding: 0.5rem !important;
 }
 
-.card-footer{
+.card-footer {
   background: #f5f5f5;
   border: none;
 }
 
-.my-link{
+.my-link {
   text-decoration: none;
 }
 
-.add-basket:hover{
+.add-basket:hover {
   /*box-shadow: inset 0 0 5px 0;*/
   background-color: rgba(28, 166, 37, 0.2);
 }
 
-.price-header{
+.price-header {
   background-color: #1ca625;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
@@ -64,21 +64,21 @@
   padding-right: 0.7rem;
 }
 
-.price-body{
+.price-body {
   padding: 0.1rem !important;
 }
 
-.card-body-batch{
+.card-body-batch {
   padding: 0 !important;
 }
 
-.batch-header-warn{
+.batch-header-warn {
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
   background-color: #dc3545;
 }
 
-.batch-header-succ{
+.batch-header-succ {
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
   padding-left: 1.475rem;
@@ -86,14 +86,16 @@
   background-color: #198754;
 }
 
-.batch-footer-warn,.batch-footer-succ{
+.batch-footer-warn,
+.batch-footer-succ {
   padding: 0;
 }
 
-hr{
+hr {
   margin: 5rem;
 }
 
-.btn-lg{
-  /*padding: 1rem;*/
+.body-delivery,
+.body-newsletter {
+  padding: 0 !important;
 }

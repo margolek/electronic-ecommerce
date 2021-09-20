@@ -9,112 +9,135 @@
 		<div class="text-center">
 			<h1 id="cat" class="mb-0">Categories</h1>
 		</div>
-	    <div class="carousel-indicators">
-	      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-	      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
-	      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class="" aria-current="true"></button>
-	    </div>
-	    <div class="carousel-inner">
-	      <div class="carousel-item active main">
-      		<div class="container">
-		        <div class="carousel-caption main">
-		        	{% include 'offert/_category_item.html' %}
-		        </div>
-        	</div>
-	      </div>
-	      <div class="carousel-item main">
-      		<div class="container">
-		        <div class="carousel-caption main">
-		        	{% include 'offert/_category_item.html' %}
-		        </div>
-        	</div>
-	      </div>
-	      <div class="carousel-item main">
-      		<div class="container">
-		        <div class="carousel-caption main">
-		        	{% include 'offert/_category_item.html' %}
-		        </div>
-        	</div>
-	      </div>
-	    </div>
-	    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-	      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	      <span class="visually-hidden">Previous</span>
-	    </button>
-	    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-	      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	      <span class="visually-hidden">Next</span>
-	    </button>
+		<div class="carousel-indicators">
+			<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+				aria-label="Slide 1"></button>
+			{% if category_list|length > 6 %}
+			<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"
+				class=""></button>
+			{% endif %}
+			{% if category_list|length > 12 %}
+			<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""
+				aria-current="true"></button>
+			{% endif %}
+		</div>
+		<div class="carousel-inner">
+			<div class="carousel-item active main">
+				<div class="container">
+					<div class="carousel-caption main">
+						{% include 'offert/_category_item_1.html' %}
+					</div>
+				</div>
+			</div>
+			{% if category_list|length > 6 %}
+			<div class="carousel-item main">
+				<div class="container">
+					<div class="carousel-caption main">
+						{% include 'offert/_category_item_2.html' %}
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% if category_list|length > 12 %}
+			<div class="carousel-item main">
+				<div class="container">
+					<div class="carousel-caption main">
+						{% include 'offert/_category_item_3.html' %}
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+		{% if category_list|length > 6 %}
+		<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+		{% endif %}
 	</div>
 </div>
 <div class="container pt-4" style="width: 70rem;">
 	<div class="row">
 		<div class="col-4">
 			<div class="card">
-			  <div class="card-header text-center fs18 fw500">
-			    Product of the day
-			  </div>
-			  <div class="card-body border-start border-end">
-			  	{% include 'offert/_day_product.html' %}
-			  </div>
-			  <div class="card-footer justify-content-center add-basket">
-				  <a href="#" class="my-link link-dark px-0 py-0">
-				    <div class="d-flex flex-row align-items-center justify-content-center">
-				    	<svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 0 24 24" width="35px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-				    	<span class="ps-3 fs18 fw500">Add to basket</span>
-				    </div>
-				    </a>
-			  </div>
-			</path>
+				<div class="card-header text-center fs18 fw500">
+					Product of the day
+				</div>
+				<div class="card-body border-start border-end">
+					{% include 'offert/_day_product.html' %}
+				</div>
+				<div class="card-footer justify-content-center add-basket">
+					<a href="#" class="my-link link-dark px-0 py-0">
+						<div class="d-flex flex-row align-items-center justify-content-center">
+							<svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 0 24 24" width="35px"
+								fill="#000000">
+								<path d="M0 0h24v24H0V0z" fill="none" />
+								<path
+									d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+								</svg>
+							<span class="ps-3 fs18 fw500">Add to basket</span>
+						</div>
+					</a>
+				</div>
+				</path>
 			</div>
 		</div>
 		<div class="col-8">
 			<div class="card">
-			  <div class="card-header text-center fs18 fw500">
-			    Purchase in batch and save extra money
-			  </div>
-			  <div class="card-body card-body-batch border-start border-end border-bottom">
-			  	<div class="container-fluid ps-0 pe-0">
-					<div id="myCarousel-batch" class="carousel carousel-dark slide" data-bs-ride="carousel">
-						<div class="carousel-indicators mb-1">
-					      <button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-					      <button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
-					      <button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="2" aria-label="Slide 3" class="" aria-current="true"></button>
-					    </div>
-					    <div class="carousel-inner">
-					      <div class="carousel-item active">
-				      		<div class="container">
-						        <div class="carousel-caption batch">
-						        	{% include 'offert/_batch_items.html' %}
-						        </div>
-				        	</div>
-					      </div>
-					      <div class="carousel-item">
-				      		<div class="container">
-						        <div class="carousel-caption batch">
-						        	{% include 'offert/_batch_items.html' %}
-						        </div>
-				        	</div>
-					      </div>
-					      <div class="carousel-item">
-				      		<div class="container">
-						        <div class="carousel-caption batch">
-						        	{% include 'offert/_batch_items.html' %}
-						        </div>
-				        	</div>
-					      </div>
-					    </div>
-					    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel-batch" data-bs-slide="prev">
-					      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					      <span class="visually-hidden">Previous</span>
-					    </button>
-					    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel-batch" data-bs-slide="next">
-					      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-					      <span class="visually-hidden">Next</span>
-					    </button>
-					</div>  		
-			  	</div>
-			  </div>
+				<div class="card-header text-center fs18 fw500">
+					Purchase in batch and save extra money
+				</div>
+				<div class="card-body card-body-batch border-start border-end border-bottom">
+					<div class="container-fluid ps-0 pe-0">
+						<div id="myCarousel-batch" class="carousel carousel-dark slide" data-bs-ride="carousel">
+							<div class="carousel-indicators mb-1">
+								<button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="0"
+									class="active" aria-label="Slide 1"></button>
+								<button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="1"
+									aria-label="Slide 2" class=""></button>
+								<button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="2"
+									aria-label="Slide 3" class="" aria-current="true"></button>
+							</div>
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<div class="container">
+										<div class="carousel-caption batch">
+											{% include 'offert/_batch_items.html' %}
+										</div>
+									</div>
+								</div>
+								<div class="carousel-item">
+									<div class="container">
+										<div class="carousel-caption batch">
+											{% include 'offert/_batch_items.html' %}
+										</div>
+									</div>
+								</div>
+								<div class="carousel-item">
+									<div class="container">
+										<div class="carousel-caption batch">
+											{% include 'offert/_batch_items.html' %}
+										</div>
+									</div>
+								</div>
+							</div>
+							<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel-batch"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#myCarousel-batch"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -130,17 +153,17 @@
 					<span class="fs35 fw500">Delivery</span>
 				</div>
 				<div class="pt-1">
-				<span class="fs18 text-muted">Check out delivery option and match to your preferences</span>
+					<span class="fs18 text-muted">Check out delivery option and match to your preferences</span>
 				</div>
 				<div class="pt-3">
-				<button type="button" class="btn btn-primary btn-lg">Check Out</button>
+					<button type="button" class="btn btn-primary btn-lg">Check Out</button>
 				</div>
 			</div>
 		</div>
 		<div class="col-6">
-			<div class="container">
-				<div class="card border">
-					<div class="card-body">
+			<div class="d-flex justify-content-end">
+				<div class="card border d-flex align-items-center"  style="width: 320px;">
+					<div class="card-body body-delivery">
 						<img src="http://127.0.0.1:8000/media/unsplash/delivery.svg" width="300" height="225">
 					</div>
 				</div>
@@ -154,30 +177,35 @@
 <div class="container" style="width: 70rem;">
 	<div class="row">
 		<div class="col-6">
-			<div class="container">
-				<div class="card border">
-					<div class="card-body">
+			<div class="d-flex justify-content-start">
+				<div class="card border d-flex align-items-center" style="width: 320px;">
+					<div class="card-body body-newsletter">
 						<img src="http://127.0.0.1:8000/media/unsplash/newsletter.svg" width="300" height="225">
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-6">
-			<div class="d-flex flex-column align-content-end">
-				<div>
+			<div class="d-flex flex-column">
+				<div class="d-flex justify-content-end">
 					<span class="fs35 fw500">Newsletter</span>
 				</div>
-				<div class="pt-1">
-				<span class="fs18 text-muted">Stay up to date and enroll to our newsletter</span>
+				<div class="pt-1 d-flex justify-content-end">
+					<span class="fs18 text-muted">Stay up to date and enroll to our newsletter</span>
 				</div>
-					<div class="input-group ps-3">
-						<input type="text" class="form-control" placeholder="Your email here" aria-label="Search" id="button-left">
-						<button type="submit" class="d-flex flex-row align-items-center btn btn-primary submit-button" id="button-right">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor" viewBox="0 0 16 16">
-  						<path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/></svg>
+				<div class="input-group ps-3">
+					<input type="text" class="form-control" placeholder="Your email here" aria-label="Search"
+						id="button-left">
+					<button type="submit" class="d-flex flex-row align-items-center btn btn-primary submit-button"
+						id="button-right">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							class="bi bi-cursor" viewBox="0 0 16 16">
+							<path
+								d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z" />
+							</svg>
 						<span class="ps-2">Enroll</span>
 					</button>
-					</div>
+				</div>
 			</div>
 		</div>
 	</div>

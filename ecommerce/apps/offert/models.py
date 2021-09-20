@@ -13,8 +13,12 @@ class Category(MPTTModel):
     MPTT Model allow us simple access to hierarchical data
     """
 
-    name = models.CharField(verbose_name=_("Group Name"), max_length=255, unique=True)
-    slug = models.SlugField(verbose_name=_("Group Slug"), max_length=255, unique=True)
+    name = models.CharField(verbose_name=_(
+        "Group Name"), max_length=255, unique=True)
+    photo = models.ImageField(upload_to="category/",
+                              default="category/default_photo.png")
+    slug = models.SlugField(verbose_name=_(
+        "Group Slug"), max_length=255, unique=True)
     parent = TreeForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
     )
@@ -39,7 +43,8 @@ class Feature(models.Model):
     Contain certain product specification with define value
     """
 
-    name = models.CharField(verbose_name=_("Feature Name"), max_length=255, unique=True)
+    name = models.CharField(verbose_name=_(
+        "Feature Name"), max_length=255, unique=True)
     category = models.ManyToManyField(
         Category, related_name="feature_categories", through="FeatureCategory"
     )
@@ -68,13 +73,16 @@ class Product(models.Model):
     Contain product items
     """
 
-    name = models.CharField(verbose_name=_("Product Name"), max_length=255, unique=True)
-    slug = models.SlugField(verbose_name=_("Slug"), max_length=255, unique=True)
+    name = models.CharField(verbose_name=_(
+        "Product Name"), max_length=255, unique=True)
+    slug = models.SlugField(verbose_name=_(
+        "Slug"), max_length=255, unique=True)
     category = TreeForeignKey(Category, on_delete=models.PROTECT)
     features = models.ManyToManyField(
         Feature, related_name="features", through="ProductFeature"
     )
-    description = models.TextField(verbose_name=_("Product Description"), blank=True)
+    description = models.TextField(
+        verbose_name=_("Product Description"), blank=True)
     added_by = models.ForeignKey(
         User, related_name="product_creator", on_delete=models.CASCADE
     )
