@@ -89,3 +89,11 @@
 .batch-footer-warn,.batch-footer-succ{
   padding: 0;
 }
+
+hr{
+  margin: 5rem;
+}
+
+.btn-lg{
+  /*padding: 1rem;*/
+}
