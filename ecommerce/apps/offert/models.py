@@ -170,3 +170,7 @@ class Price(models.Model):
         max_digits=6, decimal_places=2, verbose_name="Sale Price"
     )
     in_sale = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        Price.objects.exclude(id=self.pk).update(day_product=False)
+        super().save(*args, **kwargs)

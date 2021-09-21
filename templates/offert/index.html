@@ -67,9 +67,16 @@
 				<div class="card-header text-center fs18 fw500">
 					Product of the day
 				</div>
-				<div class="card-body border-start border-end">
-					{% include 'offert/_day_product.html' %}
-				</div>
+				{% if day_product %}
+					<div class="card-body border-start border-end">
+						{% include 'offert/_day_product.html' %}
+					</div>
+				{% else %}
+					<div class="card-body border-start border-end border-bottom d-flex justify-content-center">
+						<span class="fs18 fw500 pt-5 pb-5">No Product available</span>
+					</div>
+				{% endif %}
+				{% if day_product %}
 				<div class="card-footer justify-content-center add-basket">
 					<a href="#" class="my-link link-dark px-0 py-0">
 						<div class="d-flex flex-row align-items-center justify-content-center">
@@ -83,6 +90,7 @@
 						</div>
 					</a>
 				</div>
+				{% endif %}
 				</path>
 			</div>
 		</div>
