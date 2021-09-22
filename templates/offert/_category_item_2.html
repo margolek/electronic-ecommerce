@@ -1,35 +1,31 @@
 <!--2nd carousel-->
 <div class="d-flex flex-row flex-wrap justify-content-between">
-	{% for category in category_list %}
-		{% if category.0 >= 7 and category.0 <= 9 %}
-		<div class="d-fled flex-row">
-			<img src="{{category.1.photo.url}}" width="100" height="100"
-				class="round-border" alt="No data">
-			<div>
-				<span class="fs18 fw500">{{category.1.name}}</span>
-			</div>
-			<div class="pt-2">
-				<button type="button" class="btn btn-secondary btn-sm">View more »</button>
-			</div>
+	{% for category in category_list.2 %}
+	<div class="d-fled flex-row">
+		<img src="{{category.photo.url}}" width="100" height="100"
+			class="round-border" alt="No data">
+		<div>
+			<span class="fs18 fw500">{{category.name}}</span>
 		</div>
-		{% endif %}
+		<div class="pt-2">
+			<button type="button" class="btn btn-secondary btn-sm">View more »</button>
+		</div>
+	</div>
 	{% endfor %}
 </div>
 
 
 <div class="d-flex flex-row flex-wrap pt-5 justify-content-between">
-	{% for category in category_list %}
-		{% if category.0 >= 10 and category.0 <= 12 %}
-			<div class="d-fled flex-row">
-				<img src="{{category.1.photo.url}}" width="100" height="100"
-					class="round-border" alt="No data">
-				<div>
-					<span class="fs18 fw500">{{category.1.name}}</span>
-				</div>
-				<div class="pt-2">
-					<button type="button" class="btn btn-secondary btn-sm">View more »</button>
-				</div>
+	{% for category in category_list.3 %}
+		<div class="d-fled flex-row">
+			<img src="{{category.photo.url}}" width="100" height="100"
+				class="round-border" alt="No data">
+			<div>
+				<span class="fs18 fw500">{{category.name}}</span>
 			</div>
-		{% endif %}
+			<div class="pt-2">
+				<button type="button" class="btn btn-secondary btn-sm">View more »</button>
+			</div>
+		</div>
 	{% endfor %}
 </div>

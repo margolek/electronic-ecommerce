@@ -1,4 +1,5 @@
-from .models import Product, Price, Images
+from .models import Product, Price, Images, Category
+import numpy as np
 
 
 class Offert:
@@ -8,8 +9,8 @@ class Offert:
             self.price_day = Price.objects.get(day_product=True)
             self.day_product = Product.objects.get(
                 id=self.price_day.product_id)
-            self.day_product_image = Images.objects.filter(
-                product=self.price_day.product_id, default=True).get()
+            self.day_product_image = self.day_product.product_image.filter(
+                default=True).get()
         except:
             self.price_day = []
             self.day_product = []
@@ -30,5 +31,15 @@ class Offert:
             available_qty = []
         return available_qty
 
-    def save(self):
-        pass
+    def get_category_list(self, batch_size=3, rows_in_carousel=2):
+        category = Category.objects.filter(level=0).order_by('id')
+        query = [category[n:n+batch_size]
+                 for n in range(0, len(category), batch_size)]
+        query_len = len(query)
+        carousel_qty = int(np.ceil(query_len/rows_in_carousel))
+        # Output format (query, query_length, expected_number of carousel)
+        return (query, query_len, carousel_qty)
+
+    # def get_sale_list(self, batch_size=2):
+    #     sale = Category.objects.filter(level=0).order_by('id')
+    #     return [category[n:n+batch_size] for n in range(0, len(category), batch_size)]

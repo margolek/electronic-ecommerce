@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
 
 User = get_user_model()
 
@@ -171,6 +173,14 @@ class Price(models.Model):
     )
     in_sale = models.BooleanField(default=False)
 
+    # Comparison is time consuming and shloud be replaced by signals utility
     def save(self, *args, **kwargs):
-        Price.objects.exclude(id=self.pk).update(day_product=False)
+        if self.pk is not None:
+            orig = Price.objects.get(pk=self.pk)
+            if orig.day_product != self.day_product:
+                Price.objects.exclude(id=self.pk).update(day_product=False)
+            if orig.in_sale != self.in_sale and self.day_product:
+                self.day_product = False
+        if self.day_product:
+            self.in_sale = False
         super().save(*args, **kwargs)
