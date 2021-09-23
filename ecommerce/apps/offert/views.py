@@ -7,12 +7,16 @@ from django.template.defaulttags import register
 def home(request):
     home = Offert()
     category_list, category_len, carousel_qty = home.get_category_list()
-    print(category_list)
-    print(category_len)
 
-    @register.filter()
-    def to_int(value):
-        return int(value)
+    @register.filter
+    def get_position_upper(d, key):
+        return d[2*key]
+
+    @register.filter
+    def get_position_bottom(d, key):
+        if len(d) % 2 != 0 and d[2*key] == d[-1]:
+            return
+        return d[2*key+1]
 
     context = {
         'price_day': home.price_day,
