@@ -31,7 +31,7 @@ class Offert:
             available_qty = []
         return available_qty
 
-    def get_category_list(self, batch_size=3, rows_in_carousel=2):
+    def get_category_list(self, batch_size=4, rows_in_carousel=2):
         category = Category.objects.filter(level=0).order_by('id')
         query = [category[n:n+batch_size]
                  for n in range(0, len(category), batch_size)]
@@ -40,6 +40,14 @@ class Offert:
         # Output format (query, query_length, expected_number of carousel)
         return (query, query_len, carousel_qty)
 
-    # def get_sale_list(self, batch_size=2):
-    #     sale = Category.objects.filter(level=0).order_by('id')
-    #     return [category[n:n+batch_size] for n in range(0, len(category), batch_size)]
+    def get_sale_list(self, batch_size=2, items_in_carousel=2):
+        sale = Product.objects.filter(price__in_sale=True).all()
+        images = Images.objects.select_related('product').filter(default=True)
+        query = [sale[n:n+batch_size] for n in range(0, len(sale), batch_size)]
+        # This line is problematic beceause create multiple queries (replace in future)
+        count_percentage = [int(round(
+            ((x.price.regular-x.price.in_sale_price)/x.price.regular)*100, 0)) for x in sale]
+        # percentage_query = [count_percentage[n:n+batch_size]
+        #                     for n in range(0, len(count_percentage), batch_size)]
+        query_len = len(query)
+        return (query, query_len, images, count_percentage, sale)
