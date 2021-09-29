@@ -29,6 +29,13 @@ class Category(MPTTModel):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        new_slug = []
+        for m in self.get_ancestors(ascending=False, include_self=True):
+            new_slug.append(m.slug)
+        new_slug = '/'.join(new_slug)
+        return new_slug
+
     class MPTTMeta:
         order_insertion_by = ["name"]
 

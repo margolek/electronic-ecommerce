@@ -44,3 +44,15 @@ def home(request):
         'percentage_sale': dict(zip(sale, percentage_sale)),
     }
     return render(request, "offert/index.html", context)
+
+
+def subcategory(request, full_path):
+    print(full_path)
+    # category = Category.objects.filter(parent_id__slug=slug)
+
+    # title = slug.capitalize()
+    # context = {
+    #     'category': category,
+    #     'title': title,
+    # }
+    return render(request, "offert/subcategory.html")
