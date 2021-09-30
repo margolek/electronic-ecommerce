@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Title{% endblock %}
+{% block stylesheet %}{% static "" %}{% endblock %}
+{% block content %}
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-4">
+            <p>Filters</p>
+        </div>
+        <div class="col-8">
+            <div class="d-flex flex-row align-items-center">
+                {% for an in ancestors %}
+                {% if an == ancestors|last %}
+                    <a href="{% url 'offert:subcategory' an.slug %}" class="text-decoration-none fs-4 fw-bold subcategory-nav">{{an.name}}</a>
+                {% else %}
+                    <a href="{% url 'offert:subcategory' an.slug %}" class="text-decoration-none text-dark fs-4 fw-bold">{{an.name}}</a>
+                {% endif %}
+                {% if an != ancestors|last %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ms-2 me-2" width="35" height="35" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <hr>
+            <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

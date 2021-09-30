@@ -38,7 +38,7 @@ class Offert:
         query_len = len(query)
         carousel_qty = int(np.ceil(query_len/rows_in_carousel))
         # Output format (query, query_length, expected_number of carousel)
-        return (query, query_len, carousel_qty)
+        return (query, query_len, carousel_qty, category)
 
     def get_sale_list(self, batch_size=2, items_in_carousel=3):
         sale = Product.objects.filter(price__in_sale=True).all()

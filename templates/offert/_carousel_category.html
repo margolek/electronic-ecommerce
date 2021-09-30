@@ -23,7 +23,11 @@
                                 </div>
                                 <div class="pt-2">
                                     <button type="button" class="btn btn-secondary btn-sm">
+                                        {% if descendent_count|put_variable:category != 0 %}
                                         <a href="{% url 'offert:subcategory' category.slug %}" class="my-link link-light">View more</a>
+                                        {% else %}
+                                        <a href="{% url 'offert:products' category.slug %}" class="my-link link-light">View more</a>
+                                        {% endif %}
                                     </button>
                                 </div>
                             </div>
@@ -40,7 +44,11 @@
                                 </div>
                                 <div class="pt-2">
                                     <button type="button" class="btn btn-secondary btn-sm">
+                                        {% if descendent_count|put_variable:category != 0 %}
                                         <a href="{% url 'offert:subcategory' category.slug %}" class="my-link link-light">View more</a>
+                                        {% else %}
+                                        <a href="{% url 'offert:products' category.slug %}" class="my-link link-light">View more</a>
+                                        {% endif %}
                                     </button>
                                 </div>
                             </div>

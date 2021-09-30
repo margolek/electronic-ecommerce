@@ -6,5 +6,6 @@ app_name = "offert"
 
 urlpatterns = [
     path("", views.home, name="offert"),
-    path("<full_path>/", views.subcategory, name="subcategory")
+    path("<slug:slug>/", views.subcategory, name="subcategory"),
+    path("<slug:slug>/products/", views.get_category_products, name="products")
 ]
