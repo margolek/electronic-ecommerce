@@ -1,0 +1,23 @@
+.batch-header-warn {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 1.475rem;
+    padding-right: 1.475rem;
+    background-color: #dc3545;
+}
+
+.batch-header-succ {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 1.475rem;
+    padding-right: 1.475rem;
+    background-color: #198754;
+}
+
+.card {
+    border: none;
+}
+
+.navigator-text {
+    font-size: 2vw;
+}

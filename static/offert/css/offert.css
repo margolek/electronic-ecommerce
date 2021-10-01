@@ -99,3 +99,8 @@ hr {
 .body-newsletter {
   padding: 0 !important;
 }
+
+svg {
+  width: auto;
+  height: auto;
+}

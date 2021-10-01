@@ -6,3 +6,7 @@
 .subcategory-nav:hover {
     color: red;
 }
+
+.navigator-text {
+    font-size: 2vw;
+}

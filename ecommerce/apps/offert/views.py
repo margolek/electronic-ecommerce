@@ -9,7 +9,6 @@ def home(request):
     home = Offert()
     category_list, category_len, carousel_qty, category = home.get_category_list()
     sale_list, sale_len, images, percentage_sale, sale = home.get_sale_list()
-    print(category_list)
     descendent_count = [des.get_descendant_count() for des in category]
 
     @register.filter
@@ -78,15 +77,19 @@ def subcategory(request, slug):
 
 
 def get_category_products(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    products = Product.objects.filter(category=category.id)
-    ancestors = [m for m in category.get_ancestors(
-        ascending=False, include_self=True)]
-    print(ancestors)
+    product = Offert(slug=slug)
+    category, products, ancestors, images, percentage_pr = product.get_product_list()
+
+    @register.filter
+    def put_variable(d, key):
+        return d[key]
 
     context = {
+        'category': category,
         'products': products,
         'ancestors': ancestors,
+        'images': images,
+        'percentage_pr':  dict(zip(products, percentage_pr)),
     }
 
     return render(request, "offert/products.html", context)
