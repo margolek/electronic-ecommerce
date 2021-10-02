@@ -1,4 +1,4 @@
-.batch-header-warn {
+.header-warn {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
     padding-left: 1.475rem;
@@ -6,7 +6,7 @@
     background-color: #dc3545;
 }
 
-.batch-header-succ {
+.header-succ {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
     padding-left: 1.475rem;
@@ -20,4 +20,12 @@
 
 .navigator-text {
     font-size: 2vw;
+}
+
+.subcategory-product-card:hover {
+    box-shadow: 0 1px 9px 0 rgb(0 0 0 / 30%);
+}
+
+.basket-button:hover {
+    box-shadow: inset 0 0px 5px 0 rgb(0 0 0 / 10%);
 }
