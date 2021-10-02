@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{product.name}}{% endblock %}
+{% block stylesheet %}{% static "offert/css/offert_products_indyvidual.css" %}{% endblock %}
+{% block content %}
+<div class="container pt-5">
+    <div class="d-flex flex-row align-items-center">
+        <div class="d-flex flex-row align-items-center">
+        {% for an in ancestors %}
+            {% if an == ancestors|last %}
+                <a href="{% url 'offert:products' an.slug %}" class="text-decoration-none text-dark navigator-text fw-bold">{{an.name}}</a>
+            {% else %}
+                <a href="{% url 'offert:subcategory' an.slug %}" class="text-decoration-none text-dark navigator-text fw-bold">{{an.name}}</a>
+            {% endif %}
+            {% if an != ancestors|last %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="ms-2 me-2" width="30" height="30" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <hr class="ms-0 me-0 mt-3 mb-3">
+    <div class="row">
+        <div class="col-6">
+            <span>{{images}}</span>
+        </div>
+        <div class="col-6">
+            <span>col 2</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

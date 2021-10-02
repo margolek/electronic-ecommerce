@@ -1,0 +1,13 @@
+.carousel-indicators {
+    position: static;
+}
+
+.carousel-indicators li {
+    width: 300px;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.navigator-text {
+    font-size: 2vw;
+}

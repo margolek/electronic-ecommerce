@@ -1,4 +1,4 @@
-from .models import Product, Price, Images, Category
+from .models import FeatureCategory, Product, Price, Images, Category, ProductRate, ProductFeature, Feature
 from django.shortcuts import get_object_or_404
 import numpy as np
 
@@ -12,6 +12,10 @@ class Offert:
                 self.slug = kwargs['slug']
             except:
                 self.slug = ''
+            try:
+                self.slug_product = kwargs['slug_product']
+            except:
+                self.slug_product = ''
 
         try:
             self.price_day = Price.objects.get(day_product=True)
@@ -39,7 +43,7 @@ class Offert:
             available_qty = []
         return available_qty
 
-    def get_category_list(self, batch_size=3, rows_in_carousel=2):
+    def get_category_list(self, batch_size=4, rows_in_carousel=2):
         category = Category.objects.filter(level=0).order_by('id')
         query = [category[n:n+batch_size]
                  for n in range(0, len(category), batch_size)]
@@ -71,3 +75,25 @@ class Offert:
         ancestors = [m for m in category.get_ancestors(
             ascending=False, include_self=True)]
         return (category, products, ancestors, images, count_percentage)
+
+    def product_indyvidual(self):
+
+        # Get all necessary models
+        category = get_object_or_404(Category, slug=self.slug)
+        product = get_object_or_404(
+            Product, slug=self.slug_product)
+        images = Images.objects.filter(product_id=product.id)
+        price = Price.objects.get(product_id=product.id)
+        product_rate = ProductRate.objects.filter(product_id=product.id)
+        ancestors = [m for m in category.get_ancestors(
+            ascending=False, include_self=True)]
+        ancestors_id = [m.id for m in category.get_ancestors(
+            ascending=False, include_self=True)]
+        feature_category_id = [i.feature_id for i in FeatureCategory.objects.filter(
+            category_id__in=ancestors_id)]
+        product_features_id = [
+            i.feature_id for i in ProductFeature.objects.filter(product_id=product.id)]
+        product_features = Feature.objects.filter(id__in=product_features_id)
+        features = Feature.objects.filter(id__in=feature_category_id)
+
+        return (product, images, price, product_rate, product_features, ancestors)

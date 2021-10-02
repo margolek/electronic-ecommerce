@@ -93,3 +93,19 @@ def get_category_products(request, slug):
     }
 
     return render(request, "offert/products.html", context)
+
+
+def indyvidual_product(request, slug, slug_product):
+    product = Offert(slug=slug, slug_product=slug_product)
+    product, images, price, product_rate, product_features, ancestors = product.product_indyvidual()
+
+    context = {
+        'product': product,
+        'images': images,
+        'price': price,
+        'product_rate': product_rate,
+        'product_features': product_features,
+        'ancestors': ancestors,
+    }
+
+    return render(request, "offert/product_indyvidual.html", context)
