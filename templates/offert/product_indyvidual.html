@@ -22,10 +22,38 @@
     </div>
     <hr class="ms-0 me-0 mt-3 mb-3">
     <div class="row">
-        <div class="col-6">
-            <span>{{images}}</span>
+        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+            <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for i in images_len %}
+                        <button type="button" data-bs-target="#myCarousel-batch" data-bs-slide-to="{{i}}"
+                        {% if i == 0 %} class="active" {% endif %} aria-label="Slide {{i}}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                {% for i in images %}
+                    {% if i == images|first %}
+                        <div class="carousel-item active">
+                    {% else %}
+                        <div class="carousel-item">
+                    {% endif %}
+                        <div class="d-flex justify-content-center">
+                            <img src="{{i.image.url}}"  width="500px" height="500px" class="carousel-img" alt="">
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-sm-12 col-md-6">
             <span>col 2</span>
         </div>
     </div>
