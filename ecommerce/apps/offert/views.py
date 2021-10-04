@@ -3,6 +3,7 @@ from django.http import Http404
 from .models import Category, Price, Product, Images
 from ecommerce.apps.offert.offert import Offert
 from django.template.defaulttags import register
+import numpy as np
 
 
 def home(request):
@@ -97,17 +98,31 @@ def get_category_products(request, slug):
 
 def indyvidual_product(request, slug, slug_product):
     product = Offert(slug=slug, slug_product=slug_product)
-    product, images, price, product_rate, product_features, ancestors = product.product_indyvidual()
+    (product, images, product_rate, product_rate_len, product_features,
+     ancestors, stars, half_star, empty_stars, feature_value_dict,
+     feature_len) = product.product_indyvidual()
+
     images_len = range(len(images))
+
+    @register.filter
+    def put_variable(d, key):
+        return d[key]
 
     context = {
         'product': product,
         'images': images,
-        'price': price,
         'product_rate': product_rate,
+        'product_rate_len': product_rate_len,
         'product_features': product_features,
         'ancestors': ancestors,
         'images_len': images_len,
+        'stars': range(stars),
+        'half_star': half_star,
+        'empty_stars': range(empty_stars),
+        'feature_value_dict': feature_value_dict,
+        'feature_len': feature_len,
+
+
     }
 
     return render(request, "offert/product_indyvidual.html", context)

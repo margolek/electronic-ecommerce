@@ -83,17 +83,78 @@ class Offert:
         product = get_object_or_404(
             Product, slug=self.slug_product)
         images = Images.objects.filter(product_id=product.id)
-        price = Price.objects.get(product_id=product.id)
+
         product_rate = ProductRate.objects.filter(product_id=product.id)
+        product_rate_len = dict(zip([i.pk for i in product_rate], [
+            i for i in range(1, len(product_rate)+1)]))
+
+        if len(product_rate) == 0:
+            rate = 0
+        else:
+            rate = np.mean([i.value for i in product_rate])
+
+        stars = 0
+        empty_stars = 0
+        half_star = False
+        if rate < 0.25:
+            stars = 0
+            empty_stars = 5
+        elif rate >= 0.25 and rate < 0.75:
+            stars = 0
+            half_star = True
+            empty_stars = 4
+        elif rate >= 0.75 and rate <= 1.25:
+            stars = 1
+            empty_stars = 4
+        elif rate > 1.25 and rate < 1.75:
+            stars = 1
+            half_star = True
+            empty_stars = 3
+        elif rate >= 1.75 and rate <= 2.25:
+            stars = 2
+            empty_stars = 3
+        elif rate > 2.25 and rate < 2.75:
+            stars = 2
+            half_star = True
+            empty_stars = 2
+        elif rate >= 2.75 and rate <= 3.25:
+            stars = 3
+            empty_stars = 2
+        elif rate > 3.25 and rate < 3.75:
+            stars = 3
+            half_star = True
+            empty_stars = 1
+        elif rate >= 3.75 and rate <= 4.25:
+            stars = 4
+            empty_stars = 1
+        elif rate > 4.25 and rate < 4.75:
+            stars = 4
+            half_star = True
+            empty_stars = 0
+        elif rate >= 4.75:
+            stars = 5
+            empty_stars = 0
+
         ancestors = [m for m in category.get_ancestors(
             ascending=False, include_self=True)]
         ancestors_id = [m.id for m in category.get_ancestors(
             ascending=False, include_self=True)]
         feature_category_id = [i.feature_id for i in FeatureCategory.objects.filter(
             category_id__in=ancestors_id)]
-        product_features_id = [
-            i.feature_id for i in ProductFeature.objects.filter(product_id=product.id)]
-        product_features = Feature.objects.filter(id__in=product_features_id)
         features = Feature.objects.filter(id__in=feature_category_id)
 
-        return (product, images, price, product_rate, product_features, ancestors)
+        product_features_id_value = [
+            (i.feature_id, i.value) for i in ProductFeature.objects.filter(product_id=product.id)]
+
+        product_features = Feature.objects.filter(
+            id__in=[i[0] for i in product_features_id_value])
+
+        features_name = [i.name for i in product_features]
+        features_value = [i[1] for i in product_features_id_value]
+
+        feature_value_dict = dict(zip(features_name, features_value))
+        feature_len = dict(zip(features_name, [
+                           i for i in range(1, len(feature_value_dict)+1)]))
+
+        return (product, images, product_rate, product_rate_len, product_features,
+                ancestors, stars, half_star, empty_stars, feature_value_dict, feature_len)

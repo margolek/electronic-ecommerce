@@ -27,12 +27,14 @@
     }
 }
 
-
-
 .navigator-text {
     font-size: 2vw;
 }
 
 .carousel-indicators {
     margin-bottom: -1rem;
+}
+
+.quantity-card {
+    padding: 0;
 }

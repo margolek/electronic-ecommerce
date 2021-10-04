@@ -1,36 +1,41 @@
 /* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-html, body, p, div{
+
+html,
+body,
+p,
+div {
     letter-spacing: -0.02px;
     font-family: 'Roboto', sans-serif;
 }
 
-.fs35{
-	font-size: 35px;
+.fs35 {
+    font-size: 35px;
 }
 
-.fs18{
+.fs18 {
     font-size: 18px;
 }
 
-.fs10{
+.fs10 {
     font-size: 10px;
 }
 
-.fs12{
+.fs12 {
     font-size: 12px;
 }
 
-.fw500{
+.fw500 {
     font-weight: 500;
 }
 
-.form-control[type="text"]:focus,.submit-button:focus{
+.form-control[type="text"]:focus,
+.submit-button:focus {
     border-color: transparent;
     box-shadow: 0 1px 9px 0 rgb(0 0 0 / 30%);
 }
 
-.nav-link:hover{
+.nav-main:hover {
     border-radius: 0.35rem;
     box-shadow: 0 1px 9px 0 rgb(0 0 0 / 30%);
 }
