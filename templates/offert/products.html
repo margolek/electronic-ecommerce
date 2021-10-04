@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_template_tags %}
 {% block title %}{{ancestors|last}}{% endblock %}
 {% block stylesheet %}{% static "offert/css/offert_products.css" %}{% endblock %}
 {% block content %}
