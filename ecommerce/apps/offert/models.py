@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from django.dispatch import receiver
-from django.db.models.signals import pre_save
+from ecommerce.settings import PRODUCT_DEFAULT_IMAGE_NAME
 
 User = get_user_model()
 
@@ -147,7 +147,7 @@ class Images(models.Model):
     )
     default = models.BooleanField(default=False)
     image = models.ImageField(
-        upload_to="images/", verbose_name=_("image"), default="images/default_photo.jpg"
+        upload_to="images/", verbose_name=_("image"), default=PRODUCT_DEFAULT_IMAGE_NAME
     )
 
     class Meta:
