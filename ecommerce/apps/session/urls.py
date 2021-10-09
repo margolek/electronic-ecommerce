@@ -5,5 +5,6 @@ app_name = 'session'
 
 urlpatterns = [
     path('', views.basket_home, name="basket"),
+    path('add/', views.add, name="add"),
 
 ]
