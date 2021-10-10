@@ -25,8 +25,8 @@ def get_image(sender, instance, **kwargs):
                 product_id=instance.product.pk).update(default=True)
 
 
-@receiver(post_delete, sender=Images)
-def get_default_image(sender, instance, **kwargs):
-    empty = Images.objects.filter(product_id=instance.product.pk)
-    if len(empty) == 0:
-        Images.objects.create(product_id=instance.product.pk, default=True)
+# @receiver(post_delete, sender=Images)
+# def get_default_image(sender, instance, **kwargs):
+#     empty = Images.objects.filter(product_id=instance.product.pk)
+#     if len(empty) == 0:
+#         Images.objects.create(product_id=instance.product.pk, default=True)

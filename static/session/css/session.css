@@ -1,0 +1,16 @@
+.card {
+    border: none;
+}
+
+.card-header-start {
+    border-top-right-radius: 0 !important;
+}
+
+.card-header-middle {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.card-header-end {
+    border-top-left-radius: 0;
+}

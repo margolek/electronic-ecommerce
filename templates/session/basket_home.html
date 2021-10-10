@@ -4,6 +4,142 @@
 {% block title %}Basket{% endblock %}
 {% block stylesheet %}{% static "session/css/session.css" %}{% endblock %}
 {% block content %}
-123
+<div class="container">
+    <div id="liveAlertPlaceholder"></div> 
+    <div class="row">
+        {% for s in session.current_session.values %}
+        <div class="card border mt-3">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-2 ps-0 pe-0">
+                        <div class="card">
+                            <div class="card-header card-header-start text-center" style="height: 42px;">
+                                <span class="fs-6 fw-bold">Image</span>
+                            </div>
+                            <div class="card-body text-center">
+                                {% for p in s.product.product_image.all %}
+                                    {% if p.default == True %}
+                                        <img src="{{p.image.url}}" width="100px" height="100px" alt="">
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 ps-0 pe-0">
+                        <div class="card">
+                            <div class="card-header card-header-middle text-center" style="height: 42px;">
+                                <span class="fs-6 fw-bold">Product name</span>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center" style="height: 132px;">
+                               <span class="fs-5">{{s.product.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 ps-0 pe-0">
+                        <div class="card">
+                            <div class="card-header card-header-middle text-center" style="height: 42px;">
+                                <span class="fs-6 fw-bold">Price</span>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center" style="height: 132px;">
+                                <span class="fs-5 fw-bold" id="price{{s.product.pk}}">{{s.subtotal_price}}$</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 ps-0 pe-0">
+                        <div class="card">
+                            <div class="card-header card-header-middle text-center" style="height: 42px;">
+                                <span class="fs-6 fw-bold">Qty</span>
+                            </div>
+                            <div class="card-body text-center d-flex align-items-center justify-content-center" style="height: 132px;">
+                                <div class="card border">
+                                    <div class="card-body p-0">
+                                        <div class="d-flex flex-row">
+                                            <span class="ps-3 pe-3 fs-4 d-flex align-items-center border-end" id="quantity{{s.product.pk}}">{{s.qty}}</span>
+                                            <div class="d-flex flex-column">
+                                                <a href="update/">                                  
+                                                <svg class="border-bottom" xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px"
+                                                    fill="#000000" data-index="{{s.product.pk}}" id="add-item">
+                                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                                </svg> 
+                                                </a>
+                                                <a href="update/">                                                                      
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px"
+                                                fill="#000000" data-index="{{s.product.pk}}" id="remove-item">
+                                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                                    <path d="M19 13H5v-2h14v2z" />
+                                                </svg>
+                                                </a>                                      
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 ps-0 pe-0">
+                        <div class="card">
+                            <div class="card-header card-header-middle text-center" style="height: 42px;">
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="mt-5 ms-3 me-3 btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+//Update
+$('#add-item,#remove-item').click(function(e){
+    e.preventDefault()
+    var pk = $(this).data("index");
+    var id_type = $(this).attr('id');
+    var qty = $('#quantity'+pk).text()
+    $.ajax({
+        type:"POST",
+        url:'{% url "session:update" %}',
+        data: {
+            pk: pk,
+            id_type: id_type,
+            qty: qty,
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            action: 'post',
+        },
+        success: function(json){
+            document.getElementById("quantity"+pk).innerHTML = json.qty;
+            document.getElementById("price"+pk).innerHTML = json.price+'$';
+            if (json.limit){
+                console.log('LIMIT!')
+            }
+        },
+        error: function(error){
+            console.log(error)
+        },
+    })
+});
+
+// Javascript alert
+var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+var alertTrigger = document.getElementById('add-item')
+
+
+function alert(message, type) {
+  var wrapper = document.createElement('div')
+  wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+  alertPlaceholder.append(wrapper)
+}
+
+if (alertTrigger) {
+  alertTrigger.addEventListener('click', function () {
+    alert('You can not add more items because of store limitations!', 'danger')
+  })
+}
+</script>  
+
 {% endblock %}
-{% block javascript %}{% static "session/js/session.js" %}{% endblock javascript %}

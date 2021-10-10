@@ -1,3 +1,6 @@
+from ecommerce.apps.offert.models import Product
+from decimal import Decimal
+import numpy as np
 
 
 class Session:
@@ -15,28 +18,28 @@ class Session:
     def add(self, product, qty):
 
         # Get product Price
-        print(qty)
         if product.price.in_sale:
-            price = int(self.current_session[str(
-                product.pk)]['qty'])*float(product.price.in_sale_price)
+            price = product.price.in_sale_price
         elif product.price.day_product:
-            price = int(self.current_session[str(
-                product.pk)]['qty'])*float(product.price.day_product_price)
+            price = product.price.day_product_price
         else:
-            price = int(self.current_session[str(
-                product.pk)]['qty'])*float(product.price.regular)
+            price = product.price.regular
 
         context = {
             'qty': qty,
-            'price': str(price),
+            'detail_price': str(price),
+            'subtotal_price': int(qty)*float(price)
         }
 
         self.current_session[str(product.pk)] = context
         print(self.current_session)
         self.save()
 
-    def save(self):
-        self.session.modified = True
+    def get_total_price(self):
+        return np.round(sum([self.current_session[i]['subtotal_price'] for i in self.current_session.keys()]), 2)
 
     def count_product(self):
-        pass
+        return len([i for i in self.current_session.keys()])
+
+    def save(self):
+        self.session.modified = True

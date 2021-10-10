@@ -215,9 +215,6 @@ $(document).on('click','#add-product', function(e){
   var qty = parseInt($('.custom-select option:selected').val())
   var product_id = $(this).val()
   var url = "{% url "session:add" %}"
-  console.log("Product pk: "+ product_id)
-  console.log("Quantity: " + qty)
-  console.log("URL :" + url)
   $.ajax({
     type:'POST',
     url:'{% url "session:add" %}',
