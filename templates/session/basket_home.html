@@ -100,6 +100,17 @@ $('#add-item,#remove-item').click(function(e){
     var pk = $(this).data("index");
     var id_type = $(this).attr('id');
     var qty = $('#quantity'+pk).text()
+    var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    var alertTrigger = document.getElementById('add-item')
+
+    function alert(message, type) {
+    var wrapper = document.createElement('div')
+    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' +
+        message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+    alertPlaceholder.append(wrapper)
+    }
+
     $.ajax({
         type:"POST",
         url:'{% url "session:update" %}',
@@ -115,6 +126,7 @@ $('#add-item,#remove-item').click(function(e){
             document.getElementById("price"+pk).innerHTML = json.price+'$';
             if (json.limit){
                 console.log('LIMIT!')
+                alert('You can not add more items because of store limitations!', 'danger')
             }
         },
         error: function(error){
@@ -124,22 +136,14 @@ $('#add-item,#remove-item').click(function(e){
 });
 
 // Javascript alert
-var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-var alertTrigger = document.getElementById('add-item')
+{% comment %}  
 
 
-function alert(message, type) {
-  var wrapper = document.createElement('div')
-  wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
 
-  alertPlaceholder.append(wrapper)
-}
 
-if (alertTrigger) {
-  alertTrigger.addEventListener('click', function () {
-    alert('You can not add more items because of store limitations!', 'danger')
-  })
-}
+
+
+{% endcomment %}
 </script>  
 
 {% endblock %}
