@@ -5,10 +5,28 @@
 {% block stylesheet %}{% static "session/css/session.css" %}{% endblock %}
 {% block content %}
 <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Order Confirmation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to continue?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-success">Confirm</button>
+        </div>
+        </div>
+    </div>
+    </div>
     <div id="liveAlertPlaceholder"></div> 
     <div class="row">
         {% for s in session.current_session.values %}
-        <div class="card border mt-3">
+        <div class="card border mt-3 product-card" data-index="{{s.product.pk}}">
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-2 ps-0 pe-0">
@@ -56,20 +74,20 @@
                                         <div class="d-flex flex-row">
                                             <span class="ps-3 pe-3 fs-4 d-flex align-items-center border-end" id="quantity{{s.product.pk}}">{{s.qty}}</span>
                                             <div class="d-flex flex-column">
-                                                <a href="update/">                                  
+                                                <button class="border-0 ps-0 pe-0" style="background-color:#fff">                                  
                                                 <svg class="border-bottom" xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px"
                                                     fill="#000000" data-index="{{s.product.pk}}" id="add-item">
                                                     <path d="M0 0h24v24H0V0z" fill="none" />
                                                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
                                                 </svg> 
-                                                </a>
-                                                <a href="update/">                                                                      
+                                                </button>
+                                                <button class="border-0 ps-0 pe-0" style="background-color:#fff">                                                                     
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 0 24 24" width="28px"
                                                 fill="#000000" data-index="{{s.product.pk}}" id="remove-item">
                                                     <path d="M0 0h24v24H0V0z" fill="none" />
                                                     <path d="M19 13H5v-2h14v2z" />
                                                 </svg>
-                                                </a>                                      
+                                                </button>                                      
                                             </div>
                                         </div>
                                     </div>
@@ -83,13 +101,28 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2">
-                            <button type="button" class="mt-5 ms-3 me-3 btn btn-danger">Delete</button>
+                            <button type="button" data-index="{{s.product.pk}}"  class="mt-5 ms-3 me-3 btn btn-danger delete-item">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="row d-flex justify-content-end ">
+        <div class="col-3 pe-0">
+            <div class="card border mt-3">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <span class="fs-4">Total price:</span>
+                        <span class="ms-1 fs-4 fw-bold" id="basket-summary">{{session.get_total_price}}$</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 d-grid">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Confirm an order</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -124,8 +157,9 @@ $('#add-item,#remove-item').click(function(e){
         success: function(json){
             document.getElementById("quantity"+pk).innerHTML = json.qty;
             document.getElementById("price"+pk).innerHTML = json.price+'$';
+            document.getElementById("basket-summary").innerHTML = json.total_price+'$';
+            document.getElementById("total-items").innerHTML = json.basket_qty;
             if (json.limit){
-                console.log('LIMIT!')
                 alert('You can not add more items because of store limitations!', 'danger')
             }
         },
@@ -135,15 +169,29 @@ $('#add-item,#remove-item').click(function(e){
     })
 });
 
-// Javascript alert
-{% comment %}  
+//Delete
+$('.delete-item').click(function(e){
+    var pk = $(this).data("index");
 
+    $.ajax({
+        type:"POST",
+        url: '{% url "session:delete" %}',
+        data: {
+            pk:pk,
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            action: 'post',
+        },
+        success: function(json){
+            $('.product-card[data-index="' + pk + '"]').remove();
+            document.getElementById("basket-summary").innerHTML = json.total_price+'$';
+            document.getElementById("total-items").innerHTML = json.basket_qty;
 
-
-
-
-
-{% endcomment %}
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+});
 </script>  
 
 {% endblock %}

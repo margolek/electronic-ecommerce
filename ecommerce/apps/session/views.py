@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from .session import Session
 from django.http import JsonResponse
-from ecommerce.apps.offert.models import Product, Images
-from django.contrib import messages
+from ecommerce.apps.offert.models import Product
+import numpy as np
 
 
 def basket_home(request):
@@ -30,6 +30,7 @@ def add(request):
 
         context = {'qty': qty,
                    'product_id': product_id,
+                   'basket_qty': session.total_items_number(),
                    }
         return JsonResponse(context)
 
@@ -58,9 +59,25 @@ def update(request):
         'pk': pk,
         'id_type': id_type,
         'qty': qty,
-        'price': session.current_session[pk]['subtotal_price'],
+        'price': np.round(session.current_session[pk]['subtotal_price'], 2),
+        'total_price': session.get_total_price(),
+        'basket_qty': session.total_items_number(),
         'limit': limit,
 
     }
     print(context)
+    return JsonResponse(context)
+
+
+def delete(request):
+    session = Session(request)
+    if request.method == "POST":
+        pk = request.POST.get('pk')
+        session.delete(pk)
+
+    context = {
+        'session': session.current_session,
+        'total_price': session.get_total_price(),
+        'basket_qty': session.total_items_number(),
+    }
     return JsonResponse(context)

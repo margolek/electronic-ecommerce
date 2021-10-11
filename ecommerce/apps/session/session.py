@@ -28,18 +28,27 @@ class Session:
         context = {
             'qty': qty,
             'detail_price': str(price),
-            'subtotal_price': int(qty)*float(price)
+            'subtotal_price': np.round(int(qty)*float(price), 3)
         }
 
         self.current_session[str(product.pk)] = context
         print(self.current_session)
         self.save()
 
+    def delete(self, pk):
+
+        if pk in self.current_session.keys():
+            del self.current_session[str(pk)]
+            self.save()
+
     def get_total_price(self):
         return np.round(sum([self.current_session[i]['subtotal_price'] for i in self.current_session.keys()]), 2)
 
     def count_product(self):
         return len([i for i in self.current_session.keys()])
+
+    def total_items_number(self):
+        return sum([int(self.current_session[i]['qty']) for i in self.current_session.keys()])
 
     def save(self):
         self.session.modified = True
