@@ -6,6 +6,7 @@ import numpy as np
 
 
 def basket_home(request):
+    # width = request.GET.get('width')
     session = Session(request)
     total_price = session.get_total_price()
     product_ids = [i for i in session.current_session.keys()]
@@ -17,6 +18,7 @@ def basket_home(request):
     context = {
         'session': session,
         'total_price': total_price,
+        # 'width': width,
     }
     return render(request, "session/basket_home.html", context)
 
