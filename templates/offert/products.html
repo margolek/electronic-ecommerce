@@ -82,7 +82,7 @@
                                 <span class="text-white">Product unavailable</span>
                             </div>
                         {% endif %}
-                        <a href="{% url 'offert:products_indyvidual' slug=ancestors|last|slugify slug_product=pr.slug %}" class="text-decoration-none text-dark">
+                        <a href="{% url 'offert:products_indyvidual' pr.category.slug pr.slug %}" class="text-decoration-none text-dark">
                             <div class="card-body border-start border-end">
                                 <div class="row">
                                     <div class="col-7 p-1">
