@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "mptt",
     "ecommerce.apps.offert",
-    "ecommerce.apps.session"
+    "ecommerce.apps.session",
+    "rest_framework",
+    "ecommerce.apps.charts",
 ]
 
 MIDDLEWARE = [

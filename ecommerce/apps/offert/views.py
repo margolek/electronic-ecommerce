@@ -3,6 +3,7 @@ from django.http import Http404
 from .models import Category, Price, Product, Images
 from ecommerce.apps.offert.offert import Offert
 import numpy as np
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
@@ -56,6 +57,25 @@ def subcategory(request, slug):
 def get_category_products(request, slug):
     product = Offert(slug=slug)
     category, products, ancestors, images, percentage_pr = product.get_product_list()
+    items_per_page = 4
+    page = request.GET.get('page', 1)
+
+    paginator_pr = Paginator(products, items_per_page)
+    paginator_im = Paginator(images, items_per_page)
+    paginator_per = Paginator(percentage_pr, items_per_page)
+
+    try:
+        products = paginator_pr.page(page)
+        images = paginator_im.page(page)
+        percentage_pr = paginator_per.page(page)
+    except PageNotAnInteger:
+        products = paginator_pr.page(1)
+        images = paginator_im.page(1)
+        percentage_pr = paginator_per.page(1)
+    except EmptyPage:
+        products = paginator_pr.page(paginator_pr.num_pages)
+        images = paginator_im.page(paginator_im.num_pages)
+        percentage_pr = paginator_per.page(paginator_per.num_pages)
 
     context = {
         'category': category,
