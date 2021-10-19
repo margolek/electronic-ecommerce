@@ -21,6 +21,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('api/', include('ecommerce.apps.offert_api.urls', namespace='blog_api')),
     path("dashboard/", include("ecommerce.apps.charts.urls", namespace="charts")),
     path("basket/", include("ecommerce.apps.session.urls", namespace="session")),
     path("", include("ecommerce.apps.offert.urls", namespace="offert")),

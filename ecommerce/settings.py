@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "ecommerce.apps.session",
     "rest_framework",
     "ecommerce.apps.charts",
+    "ecommerce.apps.offert_api",
 ]
 
 MIDDLEWARE = [
